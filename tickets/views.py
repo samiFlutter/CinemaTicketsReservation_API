@@ -6,6 +6,8 @@ from django.http import Http404
 from django.shortcuts import render
 from django.http.request import HttpRequest
 from django.http.response import JsonResponse
+
+from project.settings import REST_FRAMEWORK
 from .models import Guest, Movie, Reservation
 from rest_framework.decorators import api_view
 from rest_framework import status, filters
@@ -14,7 +16,8 @@ from rest_framework.views import APIView
 from .serializers import GuestSerializer, MovieSerializer, ResevationSerializer
 from django.http import Http404
 from rest_framework import generics, mixins,viewsets
-
+from rest_framework.authentication import BasicAuthentication,TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 
 
@@ -174,11 +177,21 @@ class mixins_pk(mixins.RetrieveModelMixin,
 class generics_list(generics.ListCreateAPIView):
     queryset = Guest.objects.all()
     serializer_class = GuestSerializer
+    # ca pour demander le mot de passe et user name when you want to excute this 
+    # authentication_classes = [BasicAuthentication]
+    # permission_classes = [IsAuthenticated]
+
+    # ca pour demander token when you want to excute this 
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    
 # 6.1
 class generics_pk(generics.RetrieveUpdateDestroyAPIView):
     queryset = Guest.objects.all()
     serializer_class = GuestSerializer
-
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    
 
 # 7 viewsets 
 class viewsets_guest(viewsets.ModelViewSet):
