@@ -45,4 +45,12 @@ urlpatterns = [
     # 11 token authentication 
     path('api-token-auth/',obtain_auth_token),
 
+
+    # 12 working on prmisions  post pk generics  
+    # path('rest/generics/',views.Post_list.as_view()),
+
+    
+    # 12.1 working on prmisions  post pk generics  
+    path('post/generics/<int:pk>',views.Post_pk.as_view()),
+
 ]

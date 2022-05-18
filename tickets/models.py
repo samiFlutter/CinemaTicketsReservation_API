@@ -1,4 +1,5 @@
 from ast import Str
+from turtle import mode, title
 from django.db import models
 from django.forms import DateField
 
@@ -15,7 +16,12 @@ def TokenCreate(sender,instance,created,**kwargs):
     if created:
         Token.objects.create(user=instance)
 
-
+# start editing permissions  
+from django.contrib.auth.models import User
+class Post(models.Model):
+    author =models.ForeignKey(User,on_delete=models.CASCADE)
+    title =models.CharField(max_length=50)
+    body = models.TextField()
 
 class Movie(models.Model):
     hall = models.CharField(max_length=10,)
